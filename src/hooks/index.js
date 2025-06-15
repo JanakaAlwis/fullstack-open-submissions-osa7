@@ -19,7 +19,7 @@ export const useField = (type) => {
     inputProps: {
       type,
       value,
-      onChange
-    }
+      onChange,
+    },
   }
 }

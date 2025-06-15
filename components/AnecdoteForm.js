@@ -5,7 +5,7 @@ const AnecdoteForm = (props) => {
     e.preventDefault()
     props.addNew({
       content: content.inputProps.value,
-      votes: 0
+      votes: 0,
     })
   }
 
@@ -19,7 +19,9 @@ const AnecdoteForm = (props) => {
         content <input {...content.inputProps} />
       </div>
       <button>create</button>
-      <button type="button" onClick={handleReset}>reset</button>
+      <button type="button" onClick={handleReset}>
+        reset
+      </button>
     </form>
   )
 }

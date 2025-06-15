@@ -1,8 +1,4 @@
 {
-  "notes": [
-    { "id": 1, "content": "This is a sample note" }
-  ],
-  "persons": [
-    { "id": 1, "name": "Janaka Alwis", "number": "04174065541" }
-  ]
+  "notes": [{ "id": 1, "content": "This is a sample note" }],
+  "persons": [{ "id": 1, "name": "Janaka Alwis", "number": "04174065541" }]
 }

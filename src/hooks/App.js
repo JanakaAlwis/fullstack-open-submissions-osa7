@@ -50,15 +50,22 @@ const App = () => {
         <input {...noteContent.inputProps} />
         <button>create</button>
       </form>
-      {notes.map(n => <p key={n.id}>{n.content}</p>)}
+      {notes.map((n) => (
+        <p key={n.id}>{n.content}</p>
+      ))}
 
       <h2>Persons</h2>
       <form onSubmit={handlePersonSubmit}>
-        name <input {...personName.inputProps} /><br />
+        name <input {...personName.inputProps} />
+        <br />
         number <input {...personNumber.inputProps} />
         <button>create</button>
       </form>
-      {persons.map(p => <p key={p.id}>{p.name} {p.number}</p>)}
+      {persons.map((p) => (
+        <p key={p.id}>
+          {p.name} {p.number}
+        </p>
+      ))}
     </div>
   )
 }

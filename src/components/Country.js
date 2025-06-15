@@ -10,9 +10,15 @@ const Country = ({ country }) => {
       <div>area {area}</div>
       <h4>languages:</h4>
       <ul>
-        {Object.values(languages).map(l => <li key={l}>{l}</li>)}
+        {Object.values(languages).map((l) => (
+          <li key={l}>{l}</li>
+        ))}
       </ul>
-      <img src={flags.png} alt={`flag of ${name.common}`} style={{ width: 150 }} />
+      <img
+        src={flags.png}
+        alt={`flag of ${name.common}`}
+        style={{ width: 150 }}
+      />
     </div>
   )
 }

@@ -9,7 +9,7 @@ const useCountry = (name) => {
 
     axios
       .get(`https://studies.cs.helsinki.fi/restcountries/api/name/${name}`)
-      .then(res => setCountry({ found: true, data: res.data }))
+      .then((res) => setCountry({ found: true, data: res.data }))
       .catch(() => setCountry({ found: false }))
   }, [name])
 

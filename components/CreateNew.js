@@ -14,7 +14,7 @@ const CreateNew = ({ addNew }) => {
       content,
       author,
       info,
-      votes: 0
+      votes: 0,
     })
     navigate('/')
   }
@@ -23,9 +23,30 @@ const CreateNew = ({ addNew }) => {
     <div>
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
-        <div>content <input name="content" value={content} onChange={e => setContent(e.target.value)} /></div>
-        <div>author <input name="author" value={author} onChange={e => setAuthor(e.target.value)} /></div>
-        <div>url for more info <input name="info" value={info} onChange={e => setInfo(e.target.value)} /></div>
+        <div>
+          content{' '}
+          <input
+            name="content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
+        </div>
+        <div>
+          author{' '}
+          <input
+            name="author"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
+          />
+        </div>
+        <div>
+          url for more info{' '}
+          <input
+            name="info"
+            value={info}
+            onChange={(e) => setInfo(e.target.value)}
+          />
+        </div>
         <button type="submit">create</button>
       </form>
     </div>

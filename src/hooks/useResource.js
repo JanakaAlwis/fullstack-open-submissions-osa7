@@ -5,7 +5,7 @@ export const useResource = (baseUrl) => {
   const [resources, setResources] = useState([])
 
   useEffect(() => {
-    axios.get(baseUrl).then(response => {
+    axios.get(baseUrl).then((response) => {
       setResources(response.data)
     })
   }, [baseUrl])
