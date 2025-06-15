@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import {
   BrowserRouter as Router,
   Routes,
@@ -7,6 +7,9 @@ import {
   useNavigate,
   useParams,
 } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { addAnecdote } from './reducers/anecdoteReducer'
+import { showNotification } from './reducers/notificationReducer'
 
 const Menu = () => {
   const padding = {
@@ -27,22 +30,30 @@ const Menu = () => {
   )
 }
 
-const AnecdoteList = ({ anecdotes }) => (
-  <div>
-    <h2>Anecdotes</h2>
-    <ul>
-      {anecdotes.map((anecdote) => (
-        <li key={anecdote.id}>
-          <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
-        </li>
-      ))}
-    </ul>
-  </div>
-)
+const AnecdoteList = () => {
+  const anecdotes = useSelector((state) => state.anecdotes)
+  return (
+    <div>
+      <h2>Anecdotes</h2>
+      <ul>
+        {anecdotes.map((anecdote) => (
+          <li key={anecdote.id}>
+            <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
 
-const Anecdote = ({ anecdotes }) => {
+const Anecdote = () => {
   const { id } = useParams()
+  const anecdotes = useSelector((state) => state.anecdotes)
   const anecdote = anecdotes.find((a) => a.id === Number(id))
+
+  if (!anecdote) {
+    return <p>Anecdote not found</p>
+  }
 
   return (
     <div>
@@ -84,16 +95,18 @@ const Footer = () => (
   </div>
 )
 
-const Notification = ({ message }) => {
-  if (!message) return null
+const Notification = () => {
+  const notification = useSelector((state) => state.notification)
+  if (!notification) return null
   return (
     <div style={{ border: '1px solid green', padding: 10, marginBottom: 10 }}>
-      {message}
+      {notification}
     </div>
   )
 }
 
-const CreateNew = ({ addNew }) => {
+const CreateNew = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const [content, setContent] = useState('')
@@ -102,12 +115,15 @@ const CreateNew = ({ addNew }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    addNew({
+    const newAnecdote = {
       content,
       author,
       info,
       votes: 0,
-    })
+      id: Math.round(Math.random() * 10000),
+    }
+    dispatch(addAnecdote(newAnecdote))
+    dispatch(showNotification(`A new anecdote "${content}" created!`, 5))
     navigate('/')
   }
 
@@ -146,46 +162,17 @@ const CreateNew = ({ addNew }) => {
 }
 
 const App = () => {
-  const [anecdotes, setAnecdotes] = useState([
-    {
-      content: 'If it hurts, do it more often',
-      author: 'Jez Humble',
-      info: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
-      votes: 0,
-      id: 1,
-    },
-    {
-      content: 'Premature optimization is the root of all evil',
-      author: 'Donald Knuth',
-      info: 'http://wiki.c2.com/?PrematureOptimization',
-      votes: 0,
-      id: 2,
-    },
-  ])
-
-  const [notification, setNotification] = useState('')
-
-  const addNew = (anecdote) => {
-    anecdote.id = Math.round(Math.random() * 10000)
-    setAnecdotes(anecdotes.concat(anecdote))
-    setNotification(`A new anecdote "${anecdote.content}" created!`)
-    setTimeout(() => setNotification(''), 5000)
-  }
-
   return (
     <Router>
       <div>
         <h1>Software anecdotes</h1>
         <Menu />
-        <Notification message={notification} />
+        <Notification />
         <Routes>
-          <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
-          <Route path="/create" element={<CreateNew addNew={addNew} />} />
+          <Route path="/" element={<AnecdoteList />} />
+          <Route path="/create" element={<CreateNew />} />
           <Route path="/about" element={<About />} />
-          <Route
-            path="/anecdotes/:id"
-            element={<Anecdote anecdotes={anecdotes} />}
-          />
+          <Route path="/anecdotes/:id" element={<Anecdote />} />
         </Routes>
         <Footer />
       </div>
