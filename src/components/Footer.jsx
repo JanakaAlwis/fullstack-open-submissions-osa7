@@ -1,9 +1,9 @@
-const Footer = () => {
-  return (
-    <div style={{ marginTop: 50 }}>
-      Anecdote app for <a href="https://fullstackopen.com/">Full Stack Open</a>.
-    </div>
-  )
-}
+const Footer = () => (
+  <div style={{ marginTop: 20, borderTop: '1px solid #ccc', paddingTop: 10 }}>
+    Anecdote app for <a href="https://fullstackopen.com/en/" target="_blank" rel="noreferrer">Full Stack Open</a>.
 
-export default Footer;
+    See the source code on <a href="https://github.com/fullstack-hy2020/routed-anecdotes" target="_blank" rel="noreferrer">GitHub</a>.
+  </div>
+)
+
+export default Footer

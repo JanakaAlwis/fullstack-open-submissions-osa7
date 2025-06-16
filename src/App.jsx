@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useMatch } from 'react-router-dom'
 
-import AnecdoteList from './components/AnecdoteList.jsx'
-import AnecdoteForm from './components/AnecdoteForm.jsx'
-import Notification from './components/Notification.jsx'
-import About from './components/About.jsx'
-import Footer from './components/Footer.jsx'
-import Menu from './components/Menu.jsx'
-import styles from './App.module.css'
+import Menu from './components/Menu'
+import Footer from './components/Footer'
+import Notification from './components/Notification'
+import AnecdoteList from './components/AnecdoteList'
+import AnecdoteForm from './components/AnecdoteForm'
+import Anecdote from './components/Anecdote'
+import About from './components/About'
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
@@ -33,18 +33,19 @@ const App = () => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes([...anecdotes, anecdote])
     setNotification(`A new anecdote '${anecdote.content}' created!`)
-    setTimeout(() => {
-      setNotification('')
-    }, 5000)
+    setTimeout(() => setNotification(''), 5000)
   }
 
-  const anecdoteById = (id) => anecdotes.find((a) => a.id === Number(id))
+  const anecdoteById = (id) => anecdotes.find(a => a.id === id)
 
   const vote = (id) => {
     const anecdote = anecdoteById(id)
     const voted = { ...anecdote, votes: anecdote.votes + 1 }
-    setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)))
+    setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
+
+  const match = useMatch('/anecdotes/:id')
+  const anecdote = match ? anecdoteById(Number(match.params.id)) : null
 
   return (
     <div>
@@ -55,6 +56,7 @@ const App = () => {
         <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
         <Route path="/create" element={<AnecdoteForm addNew={addNew} />} />
         <Route path="/about" element={<About />} />
+        <Route path="/anecdotes/:id" element={<Anecdote anecdote={anecdote} vote={vote} />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <Footer />

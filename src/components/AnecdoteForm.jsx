@@ -1,57 +1,55 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { createAnecdote } from '../reducers/anecdoteReducer'
-import { setNotification } from '../reducers/notificationReducer'
-import { useField } from '../hooks'
 
-const AnecdoteForm = () => {
-  const content = useField('text')
-  const author = useField('text')
-  const info = useField('text')
+const AnecdoteForm = ({ addNew }) => {
+  const [content, setContent] = useState('')
+  const [author, setAuthor] = useState('')
+  const [info, setInfo] = useState('')
 
-  const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const anecdote = {
-      content: content.value,
-      author: author.value,
-      info: info.value,
+    addNew({
+      content,
+      author,
+      info,
       votes: 0,
-    }
-
-    dispatch(createAnecdote(anecdote))
-    dispatch(setNotification(`Anecdote '${anecdote.content}' created`, 5))
+    })
     navigate('/')
   }
 
-  const resetForm = () => {
-    content.reset()
-    author.reset()
-    info.reset()
-  }
-
-  const inputProps = ({ reset, ...props }) => props
-
   return (
     <div>
-      <h2>create a new anecdote</h2>
+      <h2>Create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          content
-          <input {...inputProps(content)} />
+          Content
+          <input
+            name="content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            required
+          />
         </div>
         <div>
-          author
-          <input {...inputProps(author)} />
+          Author
+          <input
+            name="author"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
+            required
+          />
         </div>
         <div>
-          url for more info
-          <input {...inputProps(info)} />
+          URL for more info
+          <input
+            name="info"
+            value={info}
+            onChange={(e) => setInfo(e.target.value)}
+          />
         </div>
-        <button type="submit">create</button>
-        <button type="button" onClick={resetForm}>reset</button>
+        <button type="submit">Create</button>
       </form>
     </div>
   )
