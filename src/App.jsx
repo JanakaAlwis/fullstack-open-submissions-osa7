@@ -7,6 +7,7 @@ import Notification from './components/Notification.jsx'
 import About from './components/About.jsx'
 import Footer from './components/Footer.jsx'
 import Menu from './components/Menu.jsx'
+import styles from './App.module.css'
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
