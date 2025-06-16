@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+  background-color: #eef2f5;
+  color: #222;
+}
+
+a {
+  color: #0077cc;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
